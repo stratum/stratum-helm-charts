@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    name: {{ .Chart.Name }}
+spec:
+  externalTrafficPolicy: Local
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 28000
+      nodePort: {{ .Values.service.p4rt.nodeport }}
+      name: stratum-p4rt
+    - protocol: TCP
+      port: 9339
+      nodePort: {{ .Values.service.gnmi.nodeport }}
+      name: stratum-gnmi-gnoi
+  selector:
+    name: {{ .Chart.Name }}

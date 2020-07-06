@@ -1,0 +1,19 @@
+image: stratumproject/stratum-bf
+tag: 9.0.0-4.14.49-OpenNetworkLinux
+registry: docker.io
+
+nodeSelector: {}
+#  Example:
+#  node-role.test: switch
+
+tolerations: []
+#  Example
+#  - key: node-role.test.org
+#    value: switch
+#    effect: NoSchedule
+
+service:
+  p4rt:
+    nodeport: 30001
+  gnmi:
+    nodeport: 30002

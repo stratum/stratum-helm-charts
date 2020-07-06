@@ -4,7 +4,7 @@ registry: docker.io
 
 nodeSelector: {}
 #  Example:
-#  node-role.test: switch
+#  node-role.test.org: switch
 
 tolerations: []
 #  Example

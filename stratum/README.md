@@ -1,6 +1,6 @@
 # Stratum
 
-Provides a [Helm] chart for deploying Stratum on Kubernetes.
+Provides a [Helm](https://helm.sh) chart for deploying Stratum on Kubernetes.
 
 # Installation
 

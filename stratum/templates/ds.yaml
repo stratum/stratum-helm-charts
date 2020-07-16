@@ -25,7 +25,9 @@ spec:
       - name: stratum-bf
         image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
         command: ["/usr/bin/start-stratum.sh"]
-        args: ["--bf_sim"]
+        args:
+          - "--bf-sim"
+          - {{ printf "--chassis_config_file=%s" .Values.chassisConfig}}
         securityContext:
           privileged: true
           sysctls:
@@ -58,6 +60,8 @@ spec:
           name: libonlp-1
         - mountPath: /lib/x86_64-linux-gnu/libonlp-x86-64-accton-wedge100bf-65x.so.1
           name: libonlp-x86-64-accton-wedge100bf-65x-1
+        - mountPath: {{ .Values.chassisConfig }}
+          name: chassis-config
       volumes:
       - name: dev
         hostPath:
@@ -98,3 +102,6 @@ spec:
       - name: libonlp-x86-64-accton-wedge100bf-65x-1
         hostPath:
           path: /lib/x86_64-linux-gnu/libonlp-x86-64-accton-wedge100bf-65x.so.1
+      - name: chassis-config
+        hostPath:
+          path: {{ .Values.chassisConfig }}

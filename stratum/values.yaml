@@ -11,3 +11,6 @@ tolerations: []
 #  - key: node-role.test.org
 #    value: switch
 #    effect: NoSchedule
+
+# Path to chassis config file located on each switch node
+chassisConfig: "/root/chassis_config.pb.txt"

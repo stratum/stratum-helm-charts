@@ -33,7 +33,9 @@ spec:
         command: ["/usr/bin/start-stratum.sh"]
         args:
           - "--bf-sim"
-          - {{ printf "--chassis_config_file=%s" .Values.chassisConfig}}
+          {{ if .Values.chassisConfig }}
+          - {{ printf "--chassis_config_file=%s" .Values.chassisConfig }}
+          {{ end }}
         securityContext:
           privileged: true
         volumeMounts:
@@ -62,8 +64,10 @@ spec:
           name: libonlp
         - mountPath: /lib/x86_64-linux-gnu/libonlp.so.1
           name: libonlp
+        {{ if .Values.chassisConfig }}
         - mountPath: {{ .Values.chassisConfig }}
           name: chassis-config
+        {{ end }}
       volumes:
       - name: dev
         hostPath:
@@ -92,6 +96,8 @@ spec:
       - name: libonlp
         hostPath:
           path: /lib/x86_64-linux-gnu/libonlp.so
+      {{ if .Values.chassisConfig }}
       - name: chassis-config
         hostPath:
           path: {{ .Values.chassisConfig }}
+      {{ end }}

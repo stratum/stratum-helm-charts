@@ -11,9 +11,3 @@ tolerations: []
 #  - key: node-role.test.org
 #    value: switch
 #    effect: NoSchedule
-
-service:
-  p4rt:
-    nodeport: 30001
-  gnmi:
-    nodeport: 30002

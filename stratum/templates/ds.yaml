@@ -20,22 +20,17 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: Always
-      initContainers:
-        - name: init-huge
-          image: ubuntu:16.04
-          securityContext:
-            privileged: true
-          command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
+      hostNetwork: true
       containers:
       - name: stratum-bf
         image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
         command: ["/usr/bin/start-stratum.sh"]
         args: ["--bf_sim"]
-        env:
-        - name: PLATFORM
-          value: x86-64-accton-wedge100bf-65x-r0
         securityContext:
           privileged: true
+          sysctls:
+          - name: vm.nr_hugepages
+            value: "128"
         volumeMounts:
         - mountPath: /dev
           name: dev
@@ -66,22 +61,22 @@ spec:
       volumes:
       - name: dev
         hostPath:
-          path: /dev
+          path: /dev/
       - name: sys
         hostPath:
-          path: /sys
+          path: /sys/
       - name: lib-modules
         hostPath:
-          path: /lib/modules/4.14.49-OpenNetworkLinux
+          path: /lib/modules/4.14.49-OpenNetworkLinux/
       - name: log
         hostPath:
-          path: /var/log
+          path: /var/log/
       - name: platform-config
         hostPath:
-          path: /lib/platform-config
+          path: /lib/platform-config/
       - name: etc-onl
         hostPath:
-          path: /etc/onl
+          path: /etc/onl/
       - name: libonlp-platform-defaults
         hostPath:
           path: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so

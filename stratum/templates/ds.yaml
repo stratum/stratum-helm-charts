@@ -1,3 +1,4 @@
+{{ $configDir := "/config" }}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -27,77 +28,108 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
+        # Pull config from the git repository
+        - name: config-getter
+          image: alpine/git
+          env:
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  name: git-secret
+                  key: username
+            - name: PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: git-secret
+                  key: password
+            - name: GIT_SERVER
+              value: {{ .Values.git.server }}
+            - name: GIT_REPO
+              value: {{ .Values.git.repo }}
+          workingDir: {{ $configDir }}
+          command: ["sh", "-c", "git clone https://$USER:$PASSWD@$GIT_SERVER/$GIT_REPO"]
+          volumeMounts:
+            - name: config-dir
+              mountPath: {{ $configDir }}
       containers:
-      - name: stratum-bf
-        image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
-        command: ["/usr/bin/start-stratum.sh"]
-        args:
-          - "--bf-sim"
-          {{ if .Values.chassisConfig }}
-          - {{ printf "--chassis_config_file=%s" .Values.chassisConfig }}
-          {{ end }}
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - mountPath: /dev
-          name: dev
-        - mountPath: /sys
-          name: sys
-        - mountPath: /lib/modules/4.14.49-OpenNetworkLinux
-          name: lib-modules
-        - mountPath: /var/log/stratum
-          name: log
-        - mountPath: /lib/platform-config
-          name: platform-config
-        - mountPath: /etc/onl
-          name: etc-onl
-        # *.so.1 are originally symbolic links to *.so so they share the same hostPath here
-        - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
-          name: libonlp-platform-defaults
-        - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so.1
-          name: libonlp-platform-defaults
-        - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so
-          name: libonlp-platform
-        - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so.1
-          name: libonlp-platform
-        - mountPath: /lib/x86_64-linux-gnu/libonlp.so
-          name: libonlp
-        - mountPath: /lib/x86_64-linux-gnu/libonlp.so.1
-          name: libonlp
-        {{ if .Values.chassisConfig }}
-        - mountPath: {{ .Values.chassisConfig }}
-          name: chassis-config
-        {{ end }}
+        - name: stratum-bf
+          image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CFG_MOUNT
+              value: {{ $configDir }}
+            - name: CFG_REPO
+              value: {{ .Values.git.repo }}
+            - name: CFG_FOLDER
+              value: {{ .Values.git.folder }}
+          command: ["/usr/bin/start-stratum-with-config"]
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /dev
+              name: dev
+            - mountPath: /sys
+              name: sys
+            - mountPath: /lib/modules/4.14.49-OpenNetworkLinux
+              name: lib-modules
+            - mountPath: /var/log/stratum
+              name: log
+            - mountPath: /lib/platform-config
+              name: platform-config
+            - mountPath: /etc/onl
+              name: etc-onl
+            # *.so.1 are originally symbolic links to *.so so they share the same hostPath here
+            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
+              name: libonlp-platform-defaults
+            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so.1
+              name: libonlp-platform-defaults
+            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so
+              name: libonlp-platform
+            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so.1
+              name: libonlp-platform
+            - mountPath: /lib/x86_64-linux-gnu/libonlp.so
+              name: libonlp
+            - mountPath: /lib/x86_64-linux-gnu/libonlp.so.1
+              name: libonlp
+            - mountPath: {{ $configDir }}
+              name: config-dir
+            - mountPath: /usr/bin/start-stratum-with-config
+              name: stratum-startup-scripts
+              subPath: start-stratum-with-config
       volumes:
-      - name: dev
-        hostPath:
-          path: /dev
-      - name: sys
-        hostPath:
-          path: /sys
-      - name: lib-modules
-        hostPath:
-          path: /lib/modules/4.14.49-OpenNetworkLinux
-      - name: log
-        hostPath:
-          path: /var/log
-      - name: platform-config
-        hostPath:
-          path: /lib/platform-config
-      - name: etc-onl
-        hostPath:
-          path: /etc/onl
-      - name: libonlp-platform-defaults
-        hostPath:
-          path: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
-      - name: libonlp-platform
-        hostPath:
-          path: /lib/x86_64-linux-gnu/libonlp-platform.so
-      - name: libonlp
-        hostPath:
-          path: /lib/x86_64-linux-gnu/libonlp.so
-      {{ if .Values.chassisConfig }}
-      - name: chassis-config
-        hostPath:
-          path: {{ .Values.chassisConfig }}
-      {{ end }}
+        - name: dev
+          hostPath:
+            path: /dev
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: lib-modules
+          hostPath:
+            path: /lib/modules/4.14.49-OpenNetworkLinux
+        - name: log
+          hostPath:
+            path: /var/log
+        - name: platform-config
+          hostPath:
+            path: /lib/platform-config
+        - name: etc-onl
+          hostPath:
+            path: /etc/onl
+        - name: libonlp-platform-defaults
+          hostPath:
+            path: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
+        - name: libonlp-platform
+          hostPath:
+            path: /lib/x86_64-linux-gnu/libonlp-platform.so
+        - name: libonlp
+          hostPath:
+            path: /lib/x86_64-linux-gnu/libonlp.so
+        - name: config-dir
+          emptyDir: {}
+        - name: stratum-startup-scripts
+          configMap:
+            name: stratum-startup-scripts
+            defaultMode: 0744

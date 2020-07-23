@@ -12,6 +12,7 @@ tolerations: []
 #    value: switch
 #    effect: NoSchedule
 
-# Path to chassis config file located on each switch node
-# Example:
-# chassisConfig: "/root/chassis_config.pb.txt"
+git:
+  server: "gerrit.opencord.org"
+  repo: "aether-pod-configs"
+  folder: "deployment-configs/aether/apps/menlo-prd"

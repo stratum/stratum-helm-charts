@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stratum-startup-scripts
+  labels:
+    app: stratum
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  stratum-startup: |
+    #!/bin/sh
+    set -e
+    LOCAL_CHASSIS_CONFIG=$CFG_MOUNT/chassis_config.pb.txt
+    if [ -f $LOCAL_CHASSIS_CONFIG ]; then
+        /usr/bin/start-stratum.sh --bf-sim --chassis_config_file=$LOCAL_CHASSIS_CONFIG
+    else
+        /usr/bin/start-stratum.sh --bf-sim
+    fi

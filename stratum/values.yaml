@@ -1,17 +1,25 @@
+registry: docker.io
 image: stratumproject/stratum-bf
 tag: 9.0.0-4.14.49-OpenNetworkLinux
-registry: docker.io
 
-nodeSelector: {}
-#  Example:
-#  node-role.test.org: switch
+# Specify nodeSelector to pin Stratum to switches only
+#
+# nodeSelector:
+#   node-role.test.org: switch
 
-tolerations: []
-#  Example:
+# Override NoSchedule for Stratum to be scheduled on switches
+#
+# tolerations:
 #  - key: node-role.test.org
 #    value: switch
 #    effect: NoSchedule
 
-# Path to chassis config file located on each switch node
-# Example:
-# chassisConfig: "/root/chassis_config.pb.txt"
+# Optional
+# When configured, an initContainer will fetch chassis config from given git repo and push it to Stratum
+# You will need to pass git and ONOS credential to K8s first before installing this helm chart.
+#   kubectl -n <STRATUM_NAMESPACE> create secret generic git-secret --from-literal=username=<GIT_USER> --from-literal=password=<GIT_PASS>
+#
+# config:
+#   server: "gerrit.opencord.org"
+#   repo: "aether-pod-configs"
+#   folder: "deployment-configs/aether/apps/menlo-prd"

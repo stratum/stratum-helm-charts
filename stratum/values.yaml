@@ -20,6 +20,8 @@ tag: 9.0.0-4.14.49-OpenNetworkLinux
 #   kubectl -n <STRATUM_NAMESPACE> create secret generic git-secret --from-literal=username=<GIT_USER> --from-literal=password=<GIT_PASS>
 #
 # config:
-#   server: "gerrit.opencord.org"
-#   repo: "aether-pod-configs"
-#   folder: "deployment-configs/aether/apps/menlo-prd"
+#   server: gerrit.opencord.org
+#   repo: aether-pod-configs
+#   folder: deployment-configs/aether/apps/menlo-prd
+#   review: 12345    # Optional. Must be used with config.patchset
+#   patchset: 1      # Optional. Must be used with config.review

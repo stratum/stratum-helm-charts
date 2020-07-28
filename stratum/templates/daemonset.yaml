@@ -50,18 +50,26 @@ spec:
               value: {{ .Values.config.repo }}
             - name: CFG_FOLDER
               value: {{ .Values.config.folder }}
+            {{ if .Values.config.review }}
+            - name: CFG_REVIEW
+              value: {{ .Values.config.review | quote }}
+            {{ end }}
+            {{ if .Values.config.patchset }}
+            - name: CFG_PATCHSET
+              value: {{ .Values.config.patchset | quote }}
+            {{ end }}
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
           workingDir: {{ $configDir }}
-          command: ["/usr/bin/stratum-init"]
+          command: ["/usr/bin/stratum-config"]
           volumeMounts:
             - name: config-dir
               mountPath: {{ $configDir }}
-            - name: configmap-init
-              mountPath: /usr/bin/stratum-init
-              subPath: stratum-init
+            - name: configmap-config
+              mountPath: /usr/bin/stratum-config
+              subPath: stratum-config
         {{ end }}
 
       containers:
@@ -139,9 +147,9 @@ spec:
         - name: config-dir
           hostPath:
             path: /config
-        - name: configmap-init
+        - name: configmap-config
           configMap:
-            name: stratum-init-scripts
+            name: stratum-config-scripts
             defaultMode: 0744
         - name: configmap-startup
           configMap:

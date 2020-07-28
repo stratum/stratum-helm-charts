@@ -1,6 +1,7 @@
 registry: docker.io
 image: stratumproject/stratum-bf
 tag: 9.0.0-4.14.49-OpenNetworkLinux
+imagePullPolicy: IfNotPresent
 
 # Specify nodeSelector to pin Stratum to switches only
 #

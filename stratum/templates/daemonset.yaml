@@ -75,6 +75,7 @@ spec:
       containers:
         - name: stratum-bf
           image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           env:
             - name: CFG_MOUNT
               value: {{ $configDir }}

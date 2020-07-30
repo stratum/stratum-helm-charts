@@ -74,8 +74,8 @@ spec:
 
       containers:
         - name: stratum-bf
-          image: {{ .Values.registry }}/{{ .Values.image }}:{{ .Values.tag }}
-          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: CFG_MOUNT
               value: {{ $configDir }}
@@ -115,6 +115,10 @@ spec:
             - mountPath: /usr/bin/stratum-startup
               name: configmap-startup
               subPath: stratum-startup
+      imagePullSecrets:
+        {{- range .Values.image.pullSecrets }}
+        - name: {{ . | quote }}
+        {{- end }}
       volumes:
         # For Stratum container
         - name: dev

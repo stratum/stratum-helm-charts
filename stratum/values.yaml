@@ -9,7 +9,9 @@ image:
   #     --docker-server=registry.aetherproject.org --docker-username=<DOCKER_USER> --docker-password=<DOCKER_PASS>
   # pullSecrets:
   #   - aether-registry-credential
- 
+
+annotations:
+  fluentbit.io/parser: stratum
 
 # Specify nodeSelector to pin Stratum to switches only
 #

@@ -68,7 +68,7 @@ pipeline {
                 
                   # Add changes and create commit
                   git add -A
-                  git commit -m "Changed by Stratum Jenkins stratum-helm-chart-publish job: author: $CHANGE_AUTHOR, pr: $GIT_BRANCH"
+                  git commit -m "Changed by Stratum Jenkins stratum-helm-chart-publish job"
                 
                   # create tag on new commit
                   git tag "\$NEW_VERSION"

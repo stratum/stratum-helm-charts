@@ -14,7 +14,10 @@ annotations:
   fluentbit.io/parser: stratum
 
 extraParams:
-  - "-log_dir=/dev/null"
+  - "-max_log_size=0"
+  - "-write_req_log_file=\"\""
+  # For stratum-bfrt only
+  # - "-read_req_log_file=\"\""
   - "-v=0"
   - "-stderrthreshold=0"
 

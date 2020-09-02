@@ -14,7 +14,7 @@ data:
     set -e
     LOCAL_CHASSIS_CONFIG=$CFG_MOUNT/chassis_config.pb.txt
     if [ -f $LOCAL_CHASSIS_CONFIG ]; then
-        /usr/bin/start-stratum.sh --bf-sim --chassis_config_file=$LOCAL_CHASSIS_CONFIG {{ template "extraParams" .Values.extraParams }}
+        /usr/bin/start-stratum.sh -bf-sim -chassis_config_file=$LOCAL_CHASSIS_CONFIG {{ template "extraParams" .Values.extraParams }}
     else
-        /usr/bin/start-stratum.sh --bf-sim {{ template "extraParams" .Values.extraParams }}
+        /usr/bin/start-stratum.sh -bf-sim {{ template "extraParams" .Values.extraParams }}
     fi

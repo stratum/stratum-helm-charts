@@ -1,0 +1,3 @@
+{{- define "extraParams" -}}
+{{- join " " . -}}
+{{- end -}}

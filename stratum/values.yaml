@@ -5,10 +5,10 @@ image:
   pullPolicy: IfNotPresent
   # Optional.
   # You will need to pass docker registry credential to K8s before installing this helm chart.
-  #   kubectl -n <ONOS_NAMESPACE> create secret docker-registry stratum-aether-registry-credential \
+  #   kubectl -n <ONOS_NAMESPACE> create secret docker-registry aether-registry-credential \
   #     --docker-server=registry.aetherproject.org --docker-username=<DOCKER_USER> --docker-password=<DOCKER_PASS>
   # pullSecrets:
-  #   - stratum-aether-registry-credential
+  #   - aether-registry-credential
 
 annotations:
   fluentbit.io/parser: stratum

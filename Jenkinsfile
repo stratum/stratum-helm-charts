@@ -32,7 +32,7 @@ pipeline {
               }
             }
         }
-        stage('Lint') {
+        stage('Lint Helm and Yaml') {
             steps {
                 sh """#!/bin/bash
                 set -x

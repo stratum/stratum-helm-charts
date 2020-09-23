@@ -5,10 +5,10 @@ image:
   pullPolicy: IfNotPresent
   # Optional.
   # You will need to pass docker registry credential to K8s before installing this helm chart.
-  #   kubectl -n <ONOS_NAMESPACE> create secret docker-registry aether-registry-credential \
+  #   kubectl -n <ONOS_NAMESPACE> create secret docker-registry stratum-aether-registry-credential \
   #     --docker-server=registry.aetherproject.org --docker-username=<DOCKER_USER> --docker-password=<DOCKER_PASS>
   # pullSecrets:
-  #   - aether-registry-credential
+  #   - stratum-aether-registry-credential
 
 annotations:
   fluentbit.io/parser: stratum
@@ -36,9 +36,10 @@ extraParams:
 # Optional
 # When configured, an initContainer will fetch chassis config from given git repo and push it to Stratum
 # You will need to pass git and ONOS credential to K8s first before installing this helm chart.
-#   kubectl -n <STRATUM_NAMESPACE> create secret generic git-secret --from-literal=username=<GIT_USER> --from-literal=password=<GIT_PASS>
+#   kubectl -n <STRATUM_NAMESPACE> create secret generic stratum-git-secret --from-literal=username=<GIT_USER> --from-literal=password=<GIT_PASS>
 #
-# config:
+config:
+  secretName: stratum-git-secret
 #   server: gerrit.opencord.org
 #   repo: aether-pod-configs
 #   folder: deployment-configs/aether/apps/menlo-prd

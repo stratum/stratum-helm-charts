@@ -7,7 +7,8 @@ pipeline {
     }
     environment {
         PUBLISH_URL ="charts.stratumproject.org/"
-        NEW_REPO_DIR ="stratum-helm-repo"
+        OLD_REPO_DIR ="stratum-helm-repo"
+        NEW_REPO_DIR ="chart_repo"
     }
     stages {
         stage('Install tools') {

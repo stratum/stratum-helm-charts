@@ -84,6 +84,8 @@ spec:
             - name: CFG_MOUNT
               value: {{ $configDir }}
           command: ["/usr/bin/stratum-startup"]
+          tty: true
+          stdin: true
           securityContext:
             privileged: true
           volumeMounts:

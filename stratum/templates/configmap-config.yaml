@@ -11,7 +11,7 @@ metadata:
 data:
   stratum-config: |
     #!/bin/sh
-    set -e
+    set -e -x
     rm -rf $CFG_REPO
     git clone https://$USER:$PASSWD@$CFG_SERVER/$CFG_REPO
 

@@ -29,6 +29,7 @@ spec:
       initContainers:
         - name: init-huge
           image: alpine
+          imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]

@@ -38,6 +38,7 @@ spec:
         {{ if .Values.config }}
         - name: config-getter
           image: alpine/git
+          imagePullPolicy: IfNotPresent
           env:
             - name: USER
               valueFrom:

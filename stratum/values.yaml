@@ -19,7 +19,7 @@ extraParams:
   # For stratum-bfrt only
   # - "-read_req_log_file=\"\""
   - "-v=0"
-  - "-stderrthreshold=0"
+  - "-minloglevel=0"
 
 # Specify nodeSelector to pin Stratum to switches only
 #

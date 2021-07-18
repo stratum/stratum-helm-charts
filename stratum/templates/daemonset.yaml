@@ -79,7 +79,7 @@ spec:
         {{ end }}
 
       containers:
-        - name: stratum-bf
+        - name: stratum-bfrt
           image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:

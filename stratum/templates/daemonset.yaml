@@ -100,23 +100,8 @@ spec:
               name: lib-modules
             - mountPath: /var/log/stratum
               name: log
-            - mountPath: /lib/platform-config
-              name: platform-config
             - mountPath: /etc/onl
               name: etc-onl
-            # *.so.1 are originally symbolic links to *.so so they share the same hostPath here
-            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
-              name: libonlp-platform-defaults
-            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so.1
-              name: libonlp-platform-defaults
-            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so
-              name: libonlp-platform
-            - mountPath: /lib/x86_64-linux-gnu/libonlp-platform.so.1
-              name: libonlp-platform
-            - mountPath: /lib/x86_64-linux-gnu/libonlp.so
-              name: libonlp
-            - mountPath: /lib/x86_64-linux-gnu/libonlp.so.1
-              name: libonlp
             # For chassis config loader
             - mountPath: {{ $configDir }}
               name: config-dir
@@ -141,21 +126,9 @@ spec:
         - name: log
           hostPath:
             path: /var/log
-        - name: platform-config
-          hostPath:
-            path: /lib/platform-config
         - name: etc-onl
           hostPath:
             path: /etc/onl
-        - name: libonlp-platform-defaults
-          hostPath:
-            path: /lib/x86_64-linux-gnu/libonlp-platform-defaults.so
-        - name: libonlp-platform
-          hostPath:
-            path: /lib/x86_64-linux-gnu/libonlp-platform.so
-        - name: libonlp
-          hostPath:
-            path: /lib/x86_64-linux-gnu/libonlp.so
         # For chassis config loader
         - name: config-dir
           hostPath:

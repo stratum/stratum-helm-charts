@@ -45,3 +45,6 @@ config:
 #   folder: deployment-configs/aether/apps/menlo-prd
 #   review: 12345    # Optional. Must be used with config.patchset
 #   patchset: 1      # Optional. Must be used with config.review
+
+podsecuritypolicy:
+  enabled: false

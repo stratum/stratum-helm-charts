@@ -40,42 +40,20 @@ spec:
           image: alpine/git
           imagePullPolicy: IfNotPresent
           env:
-            - name: USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.secretName }}
-                  key: username
-            - name: PASSWD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.config.secretName }}
-                  key: password
-            - name: CFG_SERVER
-              value: {{ .Values.config.server }}
-            - name: CFG_REPO
-              value: {{ .Values.config.repo }}
-            - name: CFG_FOLDER
-              value: {{ .Values.config.folder }}
-            {{ if .Values.config.review }}
-            - name: CFG_REVIEW
-              value: {{ .Values.config.review | quote }}
-            {{ end }}
-            {{ if .Values.config.patchset }}
-            - name: CFG_PATCHSET
-              value: {{ .Values.config.patchset | quote }}
-            {{ end }}
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: CFG_MOUNT
+              value: {{ $configDir }}
           workingDir: {{ $configDir }}
-          command: ["/usr/bin/stratum-config"]
+          command: ["/opt/configs/stratum-config"]
           volumeMounts:
             - name: config-dir
               mountPath: {{ $configDir }}
             - name: configmap-config
-              mountPath: /usr/bin/stratum-config
-              subPath: stratum-config
+              mountPath: /opt/configs
+
         {{ end }}
 
       containers:

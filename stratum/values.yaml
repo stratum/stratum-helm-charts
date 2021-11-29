@@ -48,3 +48,9 @@ config:
 
 podsecuritypolicy:
   enabled: false
+
+
+# dictionary, key is node name and value is chassis config
+# chassis_config: >
+#    "leaf1" : {}
+#    "leaf2" : {}

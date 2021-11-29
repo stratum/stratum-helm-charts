@@ -21,7 +21,7 @@ Note: The minimum version is 1.17.5
 
 There are two options to provide chassis config. The order is described as follows:
 
-### Option 1: Fetch chassis config from git repo
+### Option 1: Helm Chart value
 
 Please refer to the chassis_config field in `values.yaml` to learn more how to configure the chassis_config.
 Chassis_Config is a key-value object and the key must be the `HOSTNAME`.

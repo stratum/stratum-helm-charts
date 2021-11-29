@@ -50,7 +50,7 @@ podsecuritypolicy:
   enabled: false
 
 
-# key is node name and value is chassis config
+# key is k8s node name and value is chassis config
 # chassis_config: >
 #   "leaf1": >
 #     description: "default chassis config for edgecore wedge100bf-32x"

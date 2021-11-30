@@ -48,3 +48,41 @@ config:
 
 podsecuritypolicy:
   enabled: false
+
+
+# key is k8s node name and value is chassis config
+# chassis_config: >
+#   "leaf1": >
+#     description: "default chassis config for edgecore wedge100bf-32x"
+#     chassis {
+#       platform: plt_generic_barefoot_tofino
+#       name: "edgecore wedge100bf-32x"
+#     }
+#     nodes {
+#       id: 1
+#       slot: 1
+#       index: 1
+#     }
+#     singleton_ports {
+#       id: 164
+#       name: "5/0"
+#       slot: 1
+#       port: 5
+#       speed_bps: 40000000000
+#       config_params {
+#         admin_state: admin_state_enabled
+#         autoneg: tri_state_false
+#       }
+#       node: 1
+#     }
+#   "leaf2": >
+#     description: "Default Chassis Config for Edgecore Wedge100BF-32QS"
+#     chassis {
+#       platform: PLT_GENERIC_BAREFOOT_TOFINO
+#       name: "Edgecore Wedge100BF-32qs"
+#     }
+#     nodes {
+#       id: 1
+#       slot: 1
+#       index: 1
+#     }

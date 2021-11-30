@@ -33,9 +33,8 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
-
-        # Pull config from the git repository
-        {{ if .Values.config }}
+        {{ if .Values.chassis_config }}
+        # Copy config from configmap to switch's local filesystem
         - name: config-getter
           image: alpine/git
           imagePullPolicy: IfNotPresent
@@ -53,11 +52,10 @@ spec:
               mountPath: {{ $configDir }}
             - name: configmap-config
               mountPath: /opt/configs
-
         {{ end }}
 
       containers:
-        - name: stratum-bf
+        - name: stratum-bfrt
           image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:

@@ -24,7 +24,8 @@ There are two options to provide chassis config. The order is described as follo
 ### Option 1: Helm Chart value
 
 Please refer to the chassis_config field in `values.yaml` to learn more how to configure the chassis_config.
-Chassis_Config is a key-value object and the key must be the `Kubernetes HOSTNAME`, you can get it via `kubectl get nodes`.
+Chassis_Config is a key-value object and the key must be the **Kubernetes node name**. you can get it via `kubectl get nodes`.
+
 
 ### Option 2: Default chassis config
 

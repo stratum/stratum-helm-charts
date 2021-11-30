@@ -9,9 +9,11 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
+  {{ if .Values.chassis_config }}
   {{- range $key, $val := .Values.chassis_config }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}
+  {{ end }}
   stratum-config: |
     #!/bin/sh
     set -e -x

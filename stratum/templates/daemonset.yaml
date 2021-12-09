@@ -52,6 +52,11 @@ spec:
               mountPath: {{ $configDir }}
             - name: configmap-config
               mountPath: /opt/configs
+
+{{ if or .Values.chassis_config .Values.external_chassis_config}}
+            - name: chassis-config
+              mountPath: /opt/chassis_config/
+{{ end }}
         {{ end }}
 
       containers:
@@ -113,6 +118,13 @@ spec:
           configMap:
             name: stratum-config-scripts
             defaultMode: 0744
+
+{{ if or .Values.chassis_config .Values.external_chassis_config}}
+        - name: chassis-config
+          configMap:
+            name: stratum-chassis-configs
+            defaultMode: 0744
+{{ end }}
         - name: configmap-startup
           configMap:
             name: stratum-startup-scripts

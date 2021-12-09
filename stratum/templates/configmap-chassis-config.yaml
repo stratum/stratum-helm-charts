@@ -1,0 +1,16 @@
+{{ if .Values.chassis_config }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stratum-chassis-configs
+  labels:
+    app: stratum
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  {{- range $key, $val := .Values.chassis_config }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{ end }}

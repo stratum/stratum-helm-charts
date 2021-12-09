@@ -36,6 +36,10 @@ extraParams:
 podsecuritypolicy:
   enabled: false
 
+# # If the chassis_config comes from other deployment, set the
+# # external_chassis_config to true and name the external configmap
+# # name to stratum-chassis-configs
+# external_chassis_config: true
 # Optional
 # When configured, an initContainer will copy the chassis config to switch's filesystem.
 # key is k8s node name and value is chassis config

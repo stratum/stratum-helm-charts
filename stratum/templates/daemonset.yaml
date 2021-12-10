@@ -55,7 +55,6 @@ spec:
             - name: chassis-config
               mountPath: /opt/chassis_config/
 {{ end }}
-        {{ end }}
 
       containers:
         - name: stratum-bfrt

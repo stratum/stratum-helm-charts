@@ -33,7 +33,7 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
-        {{ if .Values.chassis_config }}
+{{ if or .Values.chassis_config .Values.external_chassis_config}}
         # Copy config from configmap to switch's local filesystem
         - name: config-getter
           image: alpine/git
@@ -52,8 +52,6 @@ spec:
               mountPath: {{ $configDir }}
             - name: configmap-config
               mountPath: /opt/configs
-
-{{ if or .Values.chassis_config .Values.external_chassis_config}}
             - name: chassis-config
               mountPath: /opt/chassis_config/
 {{ end }}

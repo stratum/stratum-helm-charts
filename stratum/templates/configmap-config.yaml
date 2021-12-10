@@ -9,16 +9,11 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-  {{ if .Values.chassis_config }}
-  {{- range $key, $val := .Values.chassis_config }}
-  {{ $key }}: {{ $val | quote }}
-  {{- end }}
-  {{ end }}
   stratum-config: |
     #!/bin/sh
     set -e -x
     # From Helm values and then is mounted by configmap
-    HELM_CHASSIS_CONFIG=/opt/configs/$NODE_NAME
+    HELM_CHASSIS_CONFIG=/opt/chassis_config/$NODE_NAME
     # File on the switch filesystem, will be used by the stratum-config-startup script
     CHASSIS_CONFIG=$CFG_MOUNT/chassis_config.pb.txt
     if [ -f $HELM_CHASSIS_CONFIG ]; then

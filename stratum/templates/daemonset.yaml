@@ -33,7 +33,7 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
-        {{ if .Values.chassis_config }}
+{{ if or .Values.chassis_config .Values.external_chassis_config}}
         # Copy config from configmap to switch's local filesystem
         - name: config-getter
           image: alpine/git
@@ -52,7 +52,9 @@ spec:
               mountPath: {{ $configDir }}
             - name: configmap-config
               mountPath: /opt/configs
-        {{ end }}
+            - name: chassis-config
+              mountPath: /opt/chassis_config/
+{{ end }}
 
       containers:
         - name: stratum-bfrt
@@ -113,6 +115,13 @@ spec:
           configMap:
             name: stratum-config-scripts
             defaultMode: 0744
+
+{{ if or .Values.chassis_config .Values.external_chassis_config}}
+        - name: chassis-config
+          configMap:
+            name: stratum-chassis-configs
+            defaultMode: 0744
+{{ end }}
         - name: configmap-startup
           configMap:
             name: stratum-startup-scripts

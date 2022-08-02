@@ -78,8 +78,8 @@ spec:
               name: lib-modules
             - mountPath: /var/log/stratum
               name: log
-            - mountPath: /etc/onl
-              name: etc-onl
+            - mountPath: /etc/sonic
+              name: etc-sonic
             # For chassis config loader
             - mountPath: {{ $configDir }}
               name: config-dir
@@ -104,9 +104,9 @@ spec:
         - name: log
           hostPath:
             path: /var/log
-        - name: etc-onl
+        - name: etc-sonic
           hostPath:
-            path: /etc/onl
+            path: /etc/sonic
         # For chassis config loader
         - name: config-dir
           hostPath:

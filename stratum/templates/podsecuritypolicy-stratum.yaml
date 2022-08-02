@@ -14,8 +14,8 @@ spec:
     - pathPrefix: "/dev"
     - pathPrefix: "/sys"
     - pathPrefix: "/var/log"
-    - pathPrefix: "/lib/modules/4.14.49-OpenNetworkLinux"
-    - pathPrefix: "/etc/onl"
+    - pathPrefix: "/lib/modules/4.19.0-12-2-amd64"
+    - pathPrefix: "/etc/sonic"
     - pathPrefix: "/config"
   hostNetwork: true
   runAsUser:

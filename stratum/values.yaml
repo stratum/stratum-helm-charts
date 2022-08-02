@@ -1,6 +1,6 @@
 image:
-  repository: stratumproject/stratum-bf
-  tag: 9.0.0-4.14.49-OpenNetworkLinux
+  repository: stratumproject/stratum-bfrt
+  tag: 22.07.18-9.7.0
   registry: docker.io
   pullPolicy: IfNotPresent
   # Optional.

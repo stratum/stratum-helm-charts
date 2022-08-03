@@ -11,13 +11,15 @@ Pre-built SONiC installers can be found [here](https://github.com/stratum/sonic-
 
 To install SONiC on the switch, please follow [this installation guide](https://github.com/sonic-net/SONiC/wiki/Quick-Start#installation).
 
+Note: The minimum version is 2022-07-28
+
 ## Kubernetes
 
 Once the SONiC is installed, you will need to install Kubernetes on top of it.
 
 This can be done manually or with help of Rancher. See [k8s official install document](https://kubernetes.io/docs/setup/production-environment/) for detail.
 
-Note: The minimum Kubernetes version is 1.17.5
+Note: The minimum version is 1.17.5
 
 ## Provide Chassis Config
 

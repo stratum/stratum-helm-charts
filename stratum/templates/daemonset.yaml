@@ -74,7 +74,7 @@ spec:
               name: dev
             - mountPath: /sys
               name: sys
-            - mountPath: /lib/modules/4.14.49-OpenNetworkLinux
+            - mountPath: /lib/modules/4.19.0-12-2-amd64
               name: lib-modules
             - mountPath: /var/log/stratum
               name: log
@@ -100,7 +100,7 @@ spec:
             path: /sys
         - name: lib-modules
           hostPath:
-            path: /lib/modules/4.14.49-OpenNetworkLinux
+            path: /lib/modules/4.19.0-12-2-amd64
         - name: log
           hostPath:
             path: /var/log

@@ -5,9 +5,11 @@ Provides a [Helm](https://helm.sh) chart for deploying Stratum on Kubernetes.
 # Installation
 
 ## SONiC
-You first need to install a customized SONiC that comes with additional
-platform support.
+You first need to install a customized SONiC that comes with additional platform support.
+
 Pre-built SONiC installers can be found [here](https://github.com/stratum/sonic-base-image/releases)
+
+To install SONiC on the switch, please follow [this installation guide](https://github.com/sonic-net/SONiC/wiki/Quick-Start#installation).
 
 ## Kubernetes
 

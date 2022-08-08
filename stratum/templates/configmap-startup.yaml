@@ -9,7 +9,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-  stratum-startup: |
+  startup: |
     #!/bin/sh
     set -e -x
     LOCAL_CHASSIS_CONFIG=$CFG_MOUNT/chassis_config.pb.txt

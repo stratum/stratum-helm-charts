@@ -21,6 +21,14 @@ This can be done manually or with help of Rancher. See [k8s official install doc
 
 Note: The minimum version is 1.17.5
 
+## Disable SONiC services
+
+Before provisioning Stratum on switches, you need to stop SONiC services on the switch with the following command:
+
+```bash
+sudo systemctl stop sonic.target
+```
+
 ## Provide Chassis Config
 
 There are two options to provide chassis config. The order is described as follows:

@@ -63,7 +63,7 @@ spec:
           env:
             - name: CFG_MOUNT
               value: {{ $configDir }}
-          command: ["/usr/bin/stratum-startup"]
+          command: ["/usr/bin/stratum/startup"]
           tty: true
           stdin: true
           securityContext:
@@ -74,18 +74,17 @@ spec:
               name: dev
             - mountPath: /sys
               name: sys
-            - mountPath: /lib/modules/4.14.49-OpenNetworkLinux
+            - mountPath: /lib/modules/4.19.0-12-2-amd64
               name: lib-modules
             - mountPath: /var/log/stratum
               name: log
-            - mountPath: /etc/onl
-              name: etc-onl
+            - mountPath: /etc/sonic
+              name: etc-sonic
             # For chassis config loader
             - mountPath: {{ $configDir }}
               name: config-dir
-            - mountPath: /usr/bin/stratum-startup
+            - mountPath: /usr/bin/stratum
               name: configmap-startup
-              subPath: stratum-startup
       imagePullSecrets:
         {{- range .Values.image.pullSecrets }}
         - name: {{ . | quote }}
@@ -100,13 +99,13 @@ spec:
             path: /sys
         - name: lib-modules
           hostPath:
-            path: /lib/modules/4.14.49-OpenNetworkLinux
+            path: /lib/modules/4.19.0-12-2-amd64
         - name: log
           hostPath:
             path: /var/log
-        - name: etc-onl
+        - name: etc-sonic
           hostPath:
-            path: /etc/onl
+            path: /etc/sonic
         # For chassis config loader
         - name: config-dir
           hostPath:

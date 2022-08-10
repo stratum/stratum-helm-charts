@@ -4,18 +4,30 @@ Provides a [Helm](https://helm.sh) chart for deploying Stratum on Kubernetes.
 
 # Installation
 
-## Open Network Linux
-You first need to install a customized Open Network Linux that comes with Docker and kernel modules required by K8s on the switch.
-A pre-built ONL image can be found [here](https://github.com/opennetworkinglab/OpenNetworkLinux/releases)
+## SONiC
+You first need to install a customized SONiC that comes with additional platform support.
 
-Note: The minimum version is 1.3.0
+Pre-built SONiC installers can be found [here](https://github.com/stratum/sonic-base-image/releases)
+
+To install SONiC on the switch, please follow [this installation guide](https://github.com/sonic-net/SONiC/wiki/Quick-Start#installation).
+
+Note: The minimum version is 2022-07-28
 
 ## Kubernetes
 
-Once the ONL is installed, you will need to install K8s on top of it. This can be done manually or with help of Rancher.
+Once the SONiC is installed, you will need to install Kubernetes on top of it.
+
 This can be done manually or with help of Rancher. See [k8s official install document](https://kubernetes.io/docs/setup/production-environment/) for detail.
 
 Note: The minimum version is 1.17.5
+
+## Disable SONiC services
+
+Before provisioning Stratum on switches, you need to stop SONiC services on the switch with the following command:
+
+```bash
+sudo systemctl stop sonic.target
+```
 
 ## Provide Chassis Config
 

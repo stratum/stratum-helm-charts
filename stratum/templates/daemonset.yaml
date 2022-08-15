@@ -63,7 +63,7 @@ spec:
           env:
             - name: CFG_MOUNT
               value: {{ $configDir }}
-          command: ["/usr/bin/stratum/startup"]
+          command: ["/usr/bin/stratum-startup"]
           tty: true
           stdin: true
           securityContext:
@@ -83,8 +83,9 @@ spec:
             # For chassis config loader
             - mountPath: {{ $configDir }}
               name: config-dir
-            - mountPath: /usr/bin/stratum
+            - mountPath: /usr/bin/stratum-startup
               name: configmap-startup
+              subPath: stratum-startup
       imagePullSecrets:
         {{- range .Values.image.pullSecrets }}
         - name: {{ . | quote }}

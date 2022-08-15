@@ -11,7 +11,7 @@ Pre-built SONiC installers can be found [here](https://github.com/stratum/sonic-
 
 To install SONiC on the switch, please follow [this installation guide](https://github.com/sonic-net/SONiC/wiki/Quick-Start#installation).
 
-Note: The minimum version is 2022-07-28
+Note: The minimum version is 2022-08-12
 
 ## Kubernetes
 
@@ -23,10 +23,11 @@ Note: The minimum version is 1.17.5
 
 ## Disable SONiC services
 
-Before provisioning Stratum on switches, you need to stop SONiC services on the switch with the following command:
+Before provisioning Stratum on switches, you need to stop and disable SONiC services on the switch with the following command:
 
 ```bash
-sudo systemctl stop sonic.target
+sudo systemctl stop sonic.target sonic-delayed.target
+sudo systemctl disable sonic.target sonic-delayed.target
 ```
 
 ## Provide Chassis Config

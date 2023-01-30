@@ -33,6 +33,19 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
+{{ if .Values.virtual_cpu_interface.enabled }}
+        - name: init-tap-interface
+          # Creates a persistent TAP interface that can be used by other apps to
+          # send packets to the switch PCIe CPU port.
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          # The default TUN device on SONiC Tofino switches is broken. We
+          # instead use the SDE provided device in its place.
+          # The tunctl command is equivalent to: ip tuntap add {{ .Values.virtual_cpu_interface.interface_name }} mode tap
+          command: ['sh', '-c', "tunctl -f /dev/net/bf_tun -t {{ .Values.virtual_cpu_interface.interface_name }}"]
+{{ end }}
 {{ if or .Values.chassis_config .Values.external_chassis_config}}
         # Copy config from configmap to switch's local filesystem
         - name: config-getter

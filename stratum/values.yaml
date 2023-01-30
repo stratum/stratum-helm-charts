@@ -1,6 +1,6 @@
 image:
   repository: stratumproject/stratum-bfrt
-  tag: 22.07.18-9.7.0
+  tag: 23.01.27-9.10.0
   registry: docker.io
   pullPolicy: IfNotPresent
   # Optional.
@@ -20,6 +20,9 @@ extraParams:
   # - "-read_req_log_file=\"\""
   - "-v=0"
   - "-minloglevel=0"
+  # If virtual_cpu_interface.enabled = true, for stratum-bfrt only
+  # - "-experimental_bfrt_tofino_virtual_cpu_interface_name=tapSwCpu"
+
 
 # Specify nodeSelector to pin Stratum to switches only
 #
@@ -35,6 +38,12 @@ extraParams:
 
 podsecuritypolicy:
   enabled: false
+
+# Expose the Tofino PCIe CPU port as a Linux interface. Requires the flag
+# -experimental_bfrt_tofino_virtual_cpu_interface_name=<...> for full effect.
+virtual_cpu_interface:
+  enabled: false
+  interface_name: tapSwCpu
 
 
 # # If the chassis_config comes from other deployment (e.g. Kustomize),

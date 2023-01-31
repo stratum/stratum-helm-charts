@@ -98,6 +98,21 @@ spec:
               name: config-dir
             - mountPath: /usr/bin/stratum
               name: configmap-startup
+{{ if .Values.virtual_cpu_interface.enabled }}
+        # Clean up the created interface on graceful shutdown
+        - name: del-tap-interface
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          # The main command does nothing except just wait for the container to
+          # be deleted. Actual cleanup happens in the preStop hook.
+          command: ['sh', '-c', "sleep 99999d"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ['sh', '-c', "kill -s TERM $(pgrep stratum_bfrt); wait $(pgrep stratum_bfrt); tunctl -f /dev/net/bf_tun -d {{ .Values.virtual_cpu_interface.interface_name }}"]
+{{ end }}
       imagePullSecrets:
         {{- range .Values.image.pullSecrets }}
         - name: {{ . | quote }}

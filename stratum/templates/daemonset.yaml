@@ -33,6 +33,19 @@ spec:
           securityContext:
             privileged: true
           command: ['sh', '-c', "sysctl vm.nr_hugepages && sysctl vm.nr_hugepages=128"]
+{{ if .Values.virtual_cpu_interface.enabled }}
+        - name: init-tap-interface
+          # Creates a persistent TAP interface that can be used by other apps to
+          # send packets to the switch PCIe CPU port.
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          # The default TUN device on SONiC Tofino switches is broken. We
+          # instead use the SDE provided device in its place.
+          # The tunctl command is equivalent to: ip tuntap add {{ .Values.virtual_cpu_interface.interface_name }} mode tap
+          command: ['sh', '-c', "tunctl -f /dev/net/bf_tun -t {{ .Values.virtual_cpu_interface.interface_name }}"]
+{{ end }}
 {{ if or .Values.chassis_config .Values.external_chassis_config}}
         # Copy config from configmap to switch's local filesystem
         - name: config-getter
@@ -85,6 +98,21 @@ spec:
               name: config-dir
             - mountPath: /usr/bin/stratum
               name: configmap-startup
+{{ if .Values.virtual_cpu_interface.enabled }}
+        # Clean up the created interface on graceful shutdown
+        - name: del-tap-interface
+          image: alpine
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          # The main command does nothing except just wait for the container to
+          # be deleted. Actual cleanup happens in the preStop hook.
+          command: ['sh', '-c', "sleep 99999d"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ['sh', '-c', "tunctl -f /dev/net/bf_tun -d {{ .Values.virtual_cpu_interface.interface_name }}"]
+{{ end }}
       imagePullSecrets:
         {{- range .Values.image.pullSecrets }}
         - name: {{ . | quote }}

@@ -111,7 +111,7 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ['sh', '-c', "kill -s TERM $(pgrep stratum_bfrt); wait $(pgrep stratum_bfrt); tunctl -f /dev/net/bf_tun -d {{ .Values.virtual_cpu_interface.interface_name }}"]
+                command: ['sh', '-c', "tunctl -f /dev/net/bf_tun -d {{ .Values.virtual_cpu_interface.interface_name }}"]
 {{ end }}
       imagePullSecrets:
         {{- range .Values.image.pullSecrets }}
